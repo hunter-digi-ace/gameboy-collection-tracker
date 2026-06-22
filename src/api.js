@@ -6,18 +6,13 @@ import { supabase } from "./supabaseClient.js";
 
 // ─── Unified game search (games + bootlegs) ──────────────
 
-const GAME_SELECT = "id,title_en,platform,release_year,genre,developer,publisher,regions,cartridge_type";
-const BOOT_SELECT = "id,title_en,platform,release_year,genre,developer,publisher,origin_country,type";
+const GAME_SELECT = "*";
+const BOOT_SELECT = "*";
 
 function normalizeRow(row, isBootleg) {
   return {
-    id: row.id,
-    title_en: row.title_en,
+    ...row,  // keep ALL original fields from the DB
     platform: isBootleg ? "Bootleg" : (row.platform || "?"),
-    release_year: row.release_year,
-    genre: row.genre,
-    developer: row.developer,
-    publisher: row.publisher,
     regions: row.regions || row.origin_country || "",
     cartridge_type: row.cartridge_type || row.type || "",
     is_bootleg: isBootleg,
