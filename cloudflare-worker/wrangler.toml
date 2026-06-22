@@ -1,0 +1,16 @@
+name = "gb-collection-bot"
+main = "src/index.js"
+compatibility_date = "2025-06-01"
+
+# Free tier: 100k requests/day, 10ms CPU (unbundled: 50ms)
+# Set to unbundled for more CPU time on photo uploads (Phase 2)
+# usage_model = "unbound"  # uncomment if hitting CPU limits
+
+[observability]
+enabled = true
+
+# Secrets (set via `wrangler secret put <NAME>`):
+#   TELEGRAM_BOT_TOKEN
+#   SUPABASE_URL
+#   SUPABASE_SERVICE_KEY
+#   AUTHORIZED_USERS   (comma-separated Telegram user IDs)
