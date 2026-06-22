@@ -26,7 +26,9 @@ async function handleRequest(request, env, ctx) {
       return handler(request, env, ctx);
     } catch (err) {
       console.error("Telegram webhook error:", err);
-      return new Response("Internal error", { status: 500 });
+      // Always return 200 OK to Telegram — never 500.
+      // A 500 makes Telegram retry the same update forever.
+      return new Response("OK");
     }
   }
 

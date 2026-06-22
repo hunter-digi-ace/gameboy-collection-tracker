@@ -14,6 +14,14 @@ import {
 export function createBot(token, env) {
   const bot = new Bot(token);
 
+  // ─── Error handler: prevents infinite retry loops ───────
+  // When any command handler throws (e.g., Markdown parse error),
+  // catch it here so the webhook still returns 200 OK to Telegram.
+  // Without this, Telegram retries the same failing update forever.
+  bot.catch((err) => {
+    console.error("Bot error (caught):", err.message);
+  });
+
   // ─── CRITICAL: must be first middleware ────────────────
   // Makes env available to every handler via ctx.env
   bot.use(async (ctx, next) => {
