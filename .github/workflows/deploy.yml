@@ -33,11 +33,9 @@ jobs:
           cache-dependency-path: collection-tracker/web-app/package-lock.json
 
       - name: Install dependencies
-        working-directory: collection-tracker/web-app
         run: npm ci
 
       - name: Build
-        working-directory: collection-tracker/web-app
         run: npm run build
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
@@ -49,7 +47,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: collection-tracker/web-app/dist
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
