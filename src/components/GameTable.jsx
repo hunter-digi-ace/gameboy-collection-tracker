@@ -4,6 +4,7 @@ const PLATFORM_CLASSES = {
   GB: "plat-gb",
   GBC: "plat-gbc",
   GBA: "plat-gba",
+  Bootleg: "plat-bootleg",
 };
 
 export function GameTable({

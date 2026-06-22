@@ -5,7 +5,7 @@ import { FilterBar } from "./components/FilterBar.jsx";
 import { GameTable } from "./components/GameTable.jsx";
 import { StatsCards } from "./components/StatsCards.jsx";
 import { GameDetail } from "./components/GameDetail.jsx";
-import { fetchGames, fetchOwnedGameIds, fetchStats } from "./api.js";
+import { fetchGames, fetchOwnedGameIds, fetchStats, fetchGenres } from "./api.js";
 import { getSession, onAuthStateChange, linkSupabaseUser, signOut } from "./supabaseClient.js";
 
 const PLATFORMS = [
@@ -13,6 +13,7 @@ const PLATFORMS = [
   { value: "GB", label: "Game Boy" },
   { value: "GBC", label: "Game Boy Color" },
   { value: "GBA", label: "Game Boy Advance" },
+  { value: "Bootleg", label: "Bootleg / Unlicensed" },
 ];
 
 export function App() {
@@ -52,6 +53,7 @@ export function App() {
     search: "",
   });
   const [page, setPage] = useState(0);
+  const [genres, setGenres] = useState([]);
   const limit = 50;
 
   // ─── Data fetching ─────────────────────────────────────
@@ -96,6 +98,11 @@ export function App() {
     } catch (err) {
       console.error("Failed to load stats:", err);
     }
+  }, [session]);
+
+  // Load genres once
+  useEffect(() => {
+    if (session) { fetchGenres().then(setGenres).catch(() => {}); }
   }, [session]);
 
   useEffect(() => {
@@ -144,6 +151,7 @@ export function App() {
         <FilterBar
           filters={filters}
           platforms={PLATFORMS}
+          genres={genres}
           onFilterChange={handleFilterChange}
         />
 
